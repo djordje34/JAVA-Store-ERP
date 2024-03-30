@@ -10,13 +10,13 @@ public class Supplier {
     private Long id;
 
     @Column(name = "supplier_name", nullable = false)
-    private String name;
+    private String supplierName;
 
     public Supplier(){
 
     }
-    public Supplier(String name) {
-        this.name = name;
+    public Supplier(String supplierName) {
+        this.supplierName = supplierName;
     }
 
     public Long getId() {
@@ -27,11 +27,11 @@ public class Supplier {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 }
