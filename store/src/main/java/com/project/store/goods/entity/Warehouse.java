@@ -23,7 +23,7 @@ public class Warehouse {
     private LocalDate additionDate;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     public Warehouse(){
