@@ -44,7 +44,7 @@ public class WarehouseController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/inventoryItems/products/:product_id/quantity")
+    @GetMapping("/inventoryItems/products/:product_id/quantity") //prepravi da ide interno preko funkcija!
     public ResponseEntity<Integer> findQuantityByProductId(Long id){
         Integer val = warehouseService.findQuantityByProductId(id);
         return ResponseEntity.ok(val);
