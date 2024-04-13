@@ -1,6 +1,5 @@
 package com.project.store.sales.service;
 
-import com.project.store.goods.entity.Product;
 import com.project.store.sales.entity.Customer;
 import com.project.store.sales.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
