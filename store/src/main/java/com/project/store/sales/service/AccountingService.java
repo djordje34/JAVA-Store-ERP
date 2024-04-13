@@ -22,7 +22,7 @@ public class AccountingService {
         return accountingRepository.findAll();
     }
 
-    public Optional<Accounting> findAccountingById(Long id){
+    public Optional<Accounting> getAccountingById(Long id){
         return accountingRepository.findById(id);
     }
 
