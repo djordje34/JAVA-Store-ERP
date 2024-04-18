@@ -64,6 +64,13 @@ public class Reservation {
         this.quantity = quantity;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", order=" + order +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                "}\n";
+    }
 }
