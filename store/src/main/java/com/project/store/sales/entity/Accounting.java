@@ -72,4 +72,15 @@ public class Accounting {    //predracun
     public void setState(Byte state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Accounting{" +
+                "id=" + id +
+                ", order=" + order +
+                ", totalPrice=" + totalPrice +
+                ", dueDate=" + dueDate +
+                ", state=" + state +
+                "}\n";
+    }
 }
