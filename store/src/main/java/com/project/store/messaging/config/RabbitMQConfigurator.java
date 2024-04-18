@@ -19,15 +19,35 @@ public class RabbitMQConfigurator {
     TopicExchange goodsExchange(){
         return new TopicExchange(GOODS_TOPIC_EXCHANGE);
     }
+
     @Bean
-    Binding productsBinding(Queue queue, TopicExchange goodsExchange){
-        return BindingBuilder.bind(queue).to(goodsExchange).with("products.#");
+    Binding productDeletedBinding(Queue queue, TopicExchange goodsExchange){
+        return BindingBuilder.bind(queue).to(goodsExchange).with("products.deleted");
     }
 
-    // tri tipa *.failed, *.cancelled i *.successful
     @Bean
-    Binding reservationBinding(Queue queue, TopicExchange goodsExchange){
-        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.#");
+    Binding productAddedBinding(Queue queue, TopicExchange goodsExchange){
+        return BindingBuilder.bind(queue).to(goodsExchange).with("products.created");
+    }
+    @Bean
+    Binding productUpdatedBinding(Queue queue, TopicExchange goodsExchange){
+        return BindingBuilder.bind(queue).to(goodsExchange).with("products.updated");
+    }
+
+    // tri tipa *.created, *.cancelled i *.successful
+    @Bean
+    Binding reservationCancelledBinding(Queue queue, TopicExchange goodsExchange) {
+        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.cancelled");
+    }
+
+    @Bean
+    Binding reservationCreatedBinding(Queue queue, TopicExchange goodsExchange) {
+        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.created");
+    }
+
+    @Bean
+    Binding reservationSuccessfulBinding(Queue queue, TopicExchange goodsExchange) {
+        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.successful");
     }
 
     @Bean
