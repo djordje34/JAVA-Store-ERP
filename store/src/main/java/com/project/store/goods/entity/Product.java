@@ -46,4 +46,13 @@ public class Product {
     public void setUnitOfMeasure(String unitOfMeasure) {
         this.unitOfMeasure = unitOfMeasure;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", unitOfMeasure='" + unitOfMeasure + '\'' +
+                '}';
+    }
 }
