@@ -1,5 +1,6 @@
 package com.project.store.messaging.events;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.project.store.goods.entity.Product;
 
 import java.io.Serializable;
