@@ -1,75 +1,148 @@
 package com.project.store.messaging.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import com.project.store.goods.listeners.ReservationListener;
+import com.project.store.sales.listeners.ProductListener;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+// product add radi preko rabbitMQ za sad
+
 @Configuration
 public class RabbitMQConfigurator {
-    public static final String GOODS_TOPIC_EXCHANGE = "goods-exchange";
+    public static final String PRODUCT_TOPIC_EXCHANGE = "products-exchange";
+    public static final String ORDER_TOPIC_EXCHANGE = "orders-exchange";
     public static final String PRODUCTS_QUEUE = "products-queue";
     public static final String RESERVATION_QUEUE = "reservation-queue";
+
+    public static final String ACCOUNTING_QUEUE = "accounting-queue";
+
     @Bean
-    TopicExchange goodsExchange(){
-        return new TopicExchange(GOODS_TOPIC_EXCHANGE);
+    Queue productQueue() {
+        return new Queue(PRODUCTS_QUEUE, false);
+    }
+    @Bean
+    Queue reservationQueue() {
+        return new Queue(RESERVATION_QUEUE, false);
+    }
+    @Bean
+    Queue accountingQueue() {
+        return new Queue(ACCOUNTING_QUEUE, false);
     }
 
     @Bean
-    Binding productDeletedBinding(Queue queue, TopicExchange goodsExchange){
-        return BindingBuilder.bind(queue).to(goodsExchange).with("products.deleted");
+    TopicExchange productsExchange(){
+        return new TopicExchange(PRODUCT_TOPIC_EXCHANGE);
     }
 
     @Bean
-    Binding productAddedBinding(Queue queue, TopicExchange goodsExchange){
-        return BindingBuilder.bind(queue).to(goodsExchange).with("products.created");
+    TopicExchange ordersExchange(){
+        return new TopicExchange(ORDER_TOPIC_EXCHANGE);
+    }
+
+    @Bean
+    Binding productDeletedBinding(Queue productQueue, TopicExchange productsExchange){
+        return BindingBuilder.bind(productQueue).to(productsExchange).with("products.deleted");
+    }
+
+    @Bean
+    Binding productAddedBinding(Queue productQueue, TopicExchange productsExchange){
+        return BindingBuilder.bind(productQueue).to(productsExchange).with("products.created");
     }
     @Bean
-    Binding productUpdatedBinding(Queue queue, TopicExchange goodsExchange){
-        return BindingBuilder.bind(queue).to(goodsExchange).with("products.updated");
+    Binding productUpdatedBinding(Queue productQueue, TopicExchange productsExchange){
+        return BindingBuilder.bind(productQueue).to(productsExchange).with("products.updated");
     }
 
     // tri tipa *.created, *.cancelled i *.successful
     @Bean
-    Binding reservationCancelledBinding(Queue queue, TopicExchange goodsExchange) {
-        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.cancelled");
+    Binding reservationCancelledBinding(Queue reservationQueue, TopicExchange ordersExchange) {
+        return BindingBuilder.bind(reservationQueue).to(ordersExchange).with("reservations.cancelled");
     }
 
     @Bean
-    Binding reservationCreatedBinding(Queue queue, TopicExchange goodsExchange) {
-        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.created");
+    Binding reservationCreatedBinding(Queue reservationQueue, TopicExchange ordersExchange) {
+        return BindingBuilder.bind(reservationQueue).to(ordersExchange).with("reservations.created");
     }
 
     @Bean
-    Binding reservationSuccessfulBinding(Queue queue, TopicExchange goodsExchange) {
-        return BindingBuilder.bind(queue).to(goodsExchange).with("reservations.successful");
+    Binding reservationSuccessfulBinding(Queue reservationQueue, TopicExchange ordersExchange) {
+        return BindingBuilder.bind(reservationQueue).to(ordersExchange).with("reservations.successful");
+    }
+
+    // Uspesan predracun
+    @Bean
+    Binding accountingSuccessful(Queue accountingQueue, TopicExchange ordersExchange) {
+        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accounting.successful");
+    }
+
+    @Bean
+    Binding accountingFailed(Queue accountingQueue, TopicExchange ordersExchange) {
+        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accounting.failed");
     }
 
     @Bean
     SimpleMessageListenerContainer productContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+                                             MessageListenerAdapter productListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(PRODUCTS_QUEUE);
-        container.setMessageListener(listenerAdapter);
+        container.setMessageListener(productListenerAdapter);
         return container;
     }
 
     @Bean
     SimpleMessageListenerContainer reservationContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+                                             MessageListenerAdapter reservationListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(RESERVATION_QUEUE);
-        container.setMessageListener(listenerAdapter);
+        container.setMessageListener(reservationListenerAdapter);
         return container;
     }
 
+    /**
+    @Bean
+    SimpleMessageListenerContainer accountingContainer(ConnectionFactory connectionFactory,
+                                                        MessageListenerAdapter listenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.setQueueNames(ACCOUNTING_QUEUE);
+        container.setMessageListener(listenerAdapter);
+        return container;
+    }
+    **/
+
     // tek dodati adaptere
+    @Bean
+    MessageListenerAdapter productListenerAdapter(ProductListener productListener, MessageConverter messageConverter) {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(productListener, "productAction");
+        adapter.setMessageConverter(messageConverter);
+        return adapter;
+    }
+
+    @Bean
+    MessageListenerAdapter reservationListenerAdapter(ReservationListener reservationListener, MessageConverter messageConverter) {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(reservationListener, "");
+        adapter.setMessageConverter(messageConverter);
+        return adapter;
+    }
+
+    // ne moze bez JSON convertera
+    @Bean
+    public MessageConverter jsonConverter() {
+        DefaultClassMapper defaultClassMapper = new DefaultClassMapper();
+        defaultClassMapper.setTrustedPackages("*");
+        Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
+        jackson2JsonMessageConverter.setClassMapper(defaultClassMapper);
+        return jackson2JsonMessageConverter;
+    }
 
 }
