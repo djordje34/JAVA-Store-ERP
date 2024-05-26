@@ -12,14 +12,14 @@ public class ProductListener implements Serializable {
         System.out.println("SALES: Product Event Occurred");
 
         ProductEvent.EventType currEvent = productEvent.getEventType();
-        if(currEvent.equals(ProductEvent.EventType.NEW_PRODUCT)){
-            System.out.println(currEvent + " - new product - " + productEvent.getProduct().toString());
-        }
-        else if(currEvent.equals(ProductEvent.EventType.UPDATED_PRODUCT)){
-            System.out.println(currEvent + " - updated product -" + productEvent.getProduct().toString());
-        }
-        else{
-            System.out.println(currEvent + " - deleted product -" + productEvent.getProduct().toString());
+        switch (currEvent) {
+            case NEW_PRODUCT ->
+                    System.out.println(currEvent + " - NEW PRODUCT AVAILABLE ON THE MARKET - " + productEvent.getProduct().toString());
+            case UPDATED_PRODUCT ->
+                    System.out.println(currEvent + " - UPDATED PRODUCT ON THE MARKET -" + productEvent.getProduct().toString());
+            case DELETED_PRODUCT ->
+                    System.out.println(currEvent + " - REMOVED PRODUCT ON THE MARKET -" + productEvent.getProduct().toString());
+            default -> throw new IllegalStateException("Unexpected value: " + currEvent);
         }
     }
 }
