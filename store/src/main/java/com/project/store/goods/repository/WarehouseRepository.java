@@ -1,5 +1,6 @@
 package com.project.store.goods.repository;
 
+import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,8 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
     Optional<Warehouse> findById(Long id);
     void delete(Warehouse warehouse);
+
+    Optional<Warehouse> findByInventoryItemId(Long inventoryItemId);
 
     @Query("SELECT SUM(w.quantity) FROM Warehouse w WHERE w.inventoryItem.product.id = :productId")
     Integer findQuantityByProductId(@Param("productId") Long productId);
