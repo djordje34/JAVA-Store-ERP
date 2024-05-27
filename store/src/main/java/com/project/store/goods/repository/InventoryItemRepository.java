@@ -13,4 +13,6 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
     Optional<InventoryItem> findById(Long id);
 
     void delete(InventoryItem invItem);
+
+    Optional<InventoryItem> findByProductId(Long productId);
 }
