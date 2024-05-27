@@ -6,7 +6,7 @@ import com.project.store.goods.entity.Product;
 import java.io.Serializable;
 
 public class ProductEvent implements Serializable {
-    public static enum EventType { NONE, NEW_PRODUCT, DELETED_PRODUCT, UPDATED_PRODUCT };
+    public static enum EventType { NONE, NEW_PRODUCT, DELETED_PRODUCT, UPDATED_PRODUCT, AVAILABLE_PRODUCT };
     EventType eventType = EventType.NONE;
     Product product;
 
@@ -28,6 +28,10 @@ public class ProductEvent implements Serializable {
 
     public static ProductEvent createUpdatedProductEvent(Product product){
         return new ProductEvent(EventType.UPDATED_PRODUCT, product);
+    }
+
+    public static ProductEvent createAvailableProductEvent(Product product){
+        return new ProductEvent(EventType.AVAILABLE_PRODUCT, product);
     }
 
     public EventType getEventType() {
