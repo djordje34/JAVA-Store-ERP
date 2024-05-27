@@ -1,7 +1,13 @@
 package com.project.store.goods.service;
 
+import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
+import com.project.store.goods.entity.Supplier;
+import com.project.store.goods.entity.Warehouse;
+import com.project.store.goods.repository.InventoryItemRepository;
 import com.project.store.goods.repository.ProductRepository;
+import com.project.store.goods.repository.SupplierRepository;
+import com.project.store.goods.repository.WarehouseRepository;
 import com.project.store.messaging.config.RabbitMQConfigurator;
 import com.project.store.messaging.events.ProductEvent;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +24,16 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final InventoryItemRepository inventoryItemRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final SupplierRepository supplierRepository;
     private final RabbitTemplate rabbitTemplate;
     @Autowired
-    public ProductService(ProductRepository productRepository, RabbitTemplate rabbitTemplate) {
+    public ProductService(ProductRepository productRepository, InventoryItemRepository inventoryItemRepository, WarehouseRepository warehouseRepository, SupplierRepository supplierRepository, RabbitTemplate rabbitTemplate) {
         this.productRepository = productRepository;
+        this.inventoryItemRepository = inventoryItemRepository;
+        this.warehouseRepository = warehouseRepository;
+        this.supplierRepository = supplierRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -35,7 +48,6 @@ public class ProductService {
     public Product saveProduct(Product product) {
         Product savedProduct = productRepository.save(product);
         ProductEvent productEvent = ProductEvent.createNewProductEvent(product);
-        System.out.println(savedProduct);
         rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.created", productEvent);
         return savedProduct;
     }
@@ -70,5 +82,30 @@ public class ProductService {
         return savedProduct;
 
     }
+
+    @Transactional
+    public void receptionOfProducts(Supplier supplier, List<InventoryItem> items){ // NIJE TESTIRANO
+        LocalDate curr = LocalDate.now();
+
+        for(InventoryItem item : items){
+            Product product = item.getProduct();
+            if(productRepository.findById(product.getId()).isEmpty()) saveProduct(product);
+
+            Optional<InventoryItem> existingItem = inventoryItemRepository.findById(item.getId());
+
+            if(existingItem.isEmpty()) inventoryItemRepository.save(item);
+
+            Optional<Supplier> existingSupplier = supplierRepository.findById(supplier.getId());
+
+            if(existingSupplier.isEmpty()) supplierRepository.save(supplier);
+
+            Warehouse warehouse = new Warehouse(item, 1, curr, supplier); // quantity nepotreban
+            warehouseRepository.save(warehouse);
+
+            ProductEvent productEvent = ProductEvent.createUpdatedProductEvent(product);
+            rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.available", productEvent);
+        }
+    }
+
 
 }
