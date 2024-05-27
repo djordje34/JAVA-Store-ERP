@@ -61,6 +61,11 @@ public class RabbitMQConfigurator {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.updated");
     }
 
+    @Bean
+    Binding productAvailableBinding(Queue productQueue, TopicExchange productsExchange){
+        return BindingBuilder.bind(productQueue).to(productsExchange).with("products.available");
+    }
+
     // tri tipa *.created, *.cancelled i *.successful
     @Bean
     Binding reservationCancelledBinding(Queue reservationQueue, TopicExchange ordersExchange) {
