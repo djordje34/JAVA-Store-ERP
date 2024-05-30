@@ -7,6 +7,7 @@ import com.project.store.goods.service.ProductService;
 import com.project.store.goods.service.SupplierService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,13 +64,24 @@ public class ProductController {
     }
 
     @PostMapping("/receptionOfProducts")
-    public ResponseEntity<List<InventoryItem>> updateInventory(@RequestBody Map<String, Object> requestBody) throws EntityNotFoundException {
+    public ResponseEntity<?> updateInventory(@RequestBody Map<String, Object> requestBody) {
         Long supplierId = ((Integer) requestBody.get("supplierId")).longValue();
         List<Map<String, Object>> inventoryItemMaps = (List<Map<String, Object>>) requestBody.get("inventoryItems");
 
         Optional<Supplier> existingSupplier = supplierService.getSupplierById(supplierId);
 
-        if (existingSupplier.isEmpty()) throw new EntityNotFoundException();
+        if (existingSupplier.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Supplier not found");
+        }
+
+        for (Map<String, Object> inventoryItemMap : inventoryItemMaps) {
+            Map<String, Object> productMap = (Map<String, Object>) inventoryItemMap.get("product");
+            Long productId = ((Integer) productMap.get("id")).longValue();
+
+            if (productService.getProductById(productId).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product with ID " + productId + " does not exist");
+            }
+        }
 
         List<InventoryItem> inventoryItems = convertToInventoryItems(inventoryItemMaps);
         productService.receptionOfProducts(existingSupplier.get(), inventoryItems);
