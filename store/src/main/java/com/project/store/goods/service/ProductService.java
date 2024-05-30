@@ -80,27 +80,4 @@ public class ProductService {
         return savedProduct;
 
     }
-
-    @Transactional
-    public void receptionOfProducts(Supplier supplier, List<InventoryItem> items){ // NIJE TESTIRANO
-        LocalDate curr = LocalDate.now();
-
-        for(InventoryItem item : items){
-            Product product = item.getProduct();
-            Optional<Product> existingProduct = productRepository.findById(product.getId());
-
-            if (existingProduct.isEmpty()) {
-                throw new IllegalArgumentException("Product with ID " + product.getId() + " does not exist");
-            }
-            inventoryItemRepository.save(item);
-
-            Warehouse warehouse = new Warehouse(item, 1, curr, supplier); // quantity nepotreban
-            warehouseRepository.save(warehouse);
-
-            ProductEvent productEvent = ProductEvent.createAvailableProductEvent(product);
-            rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.available", productEvent);
-        }
-    }
-
-
 }
