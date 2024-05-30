@@ -1,11 +1,12 @@
 package com.project.store.goods.entity;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "inventory_items")    //postavi bidir. assoc sa warehouse
-public class InventoryItem {
+public class InventoryItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
