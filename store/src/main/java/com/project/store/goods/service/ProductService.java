@@ -87,8 +87,11 @@ public class ProductService {
 
         for(InventoryItem item : items){
             Product product = item.getProduct();
-            if(productRepository.findById(product.getId()).isEmpty()) saveProduct(product);
+            Optional<Product> existingProduct = productRepository.findById(product.getId());
 
+            if (existingProduct.isEmpty()) {
+                throw new IllegalArgumentException("Product with ID " + product.getId() + " does not exist");
+            }
             inventoryItemRepository.save(item);
 
             Warehouse warehouse = new Warehouse(item, 1, curr, supplier); // quantity nepotreban
