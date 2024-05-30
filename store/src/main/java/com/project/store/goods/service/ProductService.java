@@ -26,14 +26,12 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final InventoryItemRepository inventoryItemRepository;
     private final WarehouseRepository warehouseRepository;
-    private final SupplierRepository supplierRepository;
     private final RabbitTemplate rabbitTemplate;
     @Autowired
-    public ProductService(ProductRepository productRepository, InventoryItemRepository inventoryItemRepository, WarehouseRepository warehouseRepository, SupplierRepository supplierRepository, RabbitTemplate rabbitTemplate) {
+    public ProductService(ProductRepository productRepository, InventoryItemRepository inventoryItemRepository, WarehouseRepository warehouseRepository, RabbitTemplate rabbitTemplate) {
         this.productRepository = productRepository;
         this.inventoryItemRepository = inventoryItemRepository;
         this.warehouseRepository = warehouseRepository;
-        this.supplierRepository = supplierRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -91,18 +89,12 @@ public class ProductService {
             Product product = item.getProduct();
             if(productRepository.findById(product.getId()).isEmpty()) saveProduct(product);
 
-            Optional<InventoryItem> existingItem = inventoryItemRepository.findById(item.getId());
-
-            if(existingItem.isEmpty()) inventoryItemRepository.save(item);
-
-            Optional<Supplier> existingSupplier = supplierRepository.findById(supplier.getId());
-
-            if(existingSupplier.isEmpty()) supplierRepository.save(supplier);
+            inventoryItemRepository.save(item);
 
             Warehouse warehouse = new Warehouse(item, 1, curr, supplier); // quantity nepotreban
             warehouseRepository.save(warehouse);
 
-            ProductEvent productEvent = ProductEvent.createUpdatedProductEvent(product);
+            ProductEvent productEvent = ProductEvent.createAvailableProductEvent(product);
             rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.available", productEvent);
         }
     }
