@@ -3,9 +3,11 @@ package com.project.store.sales.entity;
 import jakarta.persistence.*;
 import com.project.store.goods.entity.Product;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name="order_items")
-public class OrderItem {
+public class OrderItem implements Serializable{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
