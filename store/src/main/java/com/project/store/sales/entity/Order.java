@@ -2,11 +2,12 @@ package com.project.store.sales.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,16 +16,12 @@ public class Order {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems;
-
 
     public Order() {
     }
 
-    public Order(Customer customer, List<OrderItem> orderItems) {
+    public Order(Customer customer) {
         this.customer = customer;
-        this.orderItems = orderItems;
     }
 
     public Long getId() {
@@ -41,18 +38,5 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderProducts) {
-        this.orderItems = orderProducts;
-    }
-
-    public Order addItem(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
-        return this;
     }
 }
