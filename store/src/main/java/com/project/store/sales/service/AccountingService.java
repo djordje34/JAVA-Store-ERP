@@ -4,8 +4,10 @@ import com.project.store.sales.entity.Accounting;
 import com.project.store.sales.entity.Invoice;
 import com.project.store.sales.repository.AccountingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,4 +36,16 @@ public class AccountingService {
         Optional<Accounting> accounting = accountingRepository.findById(id);
         accounting.ifPresent(accountingRepository::delete);
     }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void checkExpiredAccountings() {
+        List<Accounting> expiredAccountings = accountingRepository.findExpiredAccountings(LocalDate.now());
+        for (Accounting accounting : expiredAccountings) {
+            Byte state = 2;
+            accounting.setState(state);
+            accountingRepository.save(accounting);
+            // ovde da cancel rez itd
+
+        }
+        }
 }
