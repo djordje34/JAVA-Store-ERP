@@ -3,22 +3,29 @@ package com.project.store.messaging.events;
 import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Reservation;
 import com.project.store.sales.entity.Accounting;
+import com.project.store.sales.entity.Customer;
+import com.project.store.sales.entity.OrderItem;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ReservationEvent implements Serializable {
     public static enum EventType { NONE, NEW_RESERVATION, CANCELLED_RESERVATION, SUCCESSFUL_RESERVATION };
 
     EventType eventType = EventType.NONE;
-    Reservation reservation;
-    Accounting accounting;
+    OrderItem orderItem;
+    List<OrderItem> orderItemList;
     public ReservationEvent(){
 
     }
-    public ReservationEvent(EventType eventType, Reservation reservation, Accounting accounting){
+    public ReservationEvent(EventType eventType, OrderItem orderItem){
         this.eventType = eventType;
-        this.reservation = reservation;
-        this.accounting = accounting;
+        this.orderItem = orderItem;
+    }
+
+    public ReservationEvent(EventType eventType, List<OrderItem> orderItems){
+        this.eventType = eventType;
+        this.orderItemList = orderItems;
     }
 
     public EventType getEventType() {
@@ -29,32 +36,32 @@ public class ReservationEvent implements Serializable {
         this.eventType = eventType;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public OrderItem getOrderItem() {
+        return orderItem;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 
-    public Accounting getAccounting() {
-        return accounting;
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
     }
 
-    public void setAccounting(Accounting accounting) {
-        this.accounting = accounting;
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 
-    public static ReservationEvent createNewReservationEvent(Reservation reservation, Accounting accounting){
-        return new ReservationEvent(EventType.NEW_RESERVATION, reservation, accounting);
+    public static ReservationEvent createNewReservationEvent(List<OrderItem> orderItems){
+        return new ReservationEvent(EventType.NEW_RESERVATION, orderItems);
     }
 
-    public static ReservationEvent createCancelledReservationEvent(Reservation reservation, Accounting accounting){
-        return new ReservationEvent(EventType.CANCELLED_RESERVATION, reservation, accounting);
+    public static ReservationEvent createCancelledReservationEvent(OrderItem orderItem){
+        return new ReservationEvent(EventType.CANCELLED_RESERVATION, orderItem);
     }
 
-    public static ReservationEvent createSucessfulReservationEvent(Reservation reservation, Accounting accounting){
-        return new ReservationEvent(EventType.SUCCESSFUL_RESERVATION, reservation, accounting);
+    public static ReservationEvent createSuccessfulReservationEvent(OrderItem orderItem){
+        return new ReservationEvent(EventType.SUCCESSFUL_RESERVATION, orderItem);
     }
 
     public String toString(){
@@ -62,10 +69,8 @@ public class ReservationEvent implements Serializable {
         sb.append("Reservation Event").append(" of type ")
                 .append(eventType)
                 .append("\n--------------------------------------\n");
-        if(reservation!=null)
-            sb.append(reservation);
-        if(accounting!=null)
-            sb.append(accounting);
+        if(orderItem!=null)
+            sb.append(orderItem);
         return sb.toString();
     }
 }
