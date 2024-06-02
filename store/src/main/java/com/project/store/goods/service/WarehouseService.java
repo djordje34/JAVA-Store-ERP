@@ -1,5 +1,6 @@
 package com.project.store.goods.service;
 
+import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Warehouse;
 import com.project.store.goods.repository.WarehouseRepository;
@@ -39,6 +40,7 @@ public class WarehouseService {
     public Integer findQuantityByProductId(Long id){
         return warehouseRepository.findQuantityByProductId(id);
     }
+
 
     public Double findAveragePurchasePrice(Long id){
         return warehouseRepository.findAveragePurchasePrice(id);
