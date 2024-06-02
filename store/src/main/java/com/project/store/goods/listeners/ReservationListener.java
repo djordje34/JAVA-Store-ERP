@@ -11,6 +11,7 @@ import com.project.store.messaging.config.RabbitMQConfigurator;
 import com.project.store.messaging.events.ProductEvent;
 import com.project.store.messaging.events.ReservationEvent;
 import com.project.store.sales.entity.OrderItem;
+import jakarta.transaction.Transactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ public class ReservationListener implements Serializable {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    @Transactional
     public void reservationAction(ReservationEvent reservationEvent){
         System.out.println("GOODS: Reservation Event Occurred");
 
