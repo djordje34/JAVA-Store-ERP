@@ -43,5 +43,4 @@ public class InvoiceController {
         invoiceService.deleteInvoice(id);
         return ResponseEntity.noContent().build();
     }
-
 }
