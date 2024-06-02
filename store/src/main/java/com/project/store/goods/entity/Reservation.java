@@ -3,9 +3,11 @@ package com.project.store.goods.entity;
 import com.project.store.sales.entity.Order;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "reservations")
-public class Reservation {
+public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
