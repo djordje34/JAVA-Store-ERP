@@ -55,5 +55,4 @@ public class WarehouseController {
         Double val = warehouseService.findAveragePurchasePrice(id);
         return ResponseEntity.ok(val);
     }
-
 }
