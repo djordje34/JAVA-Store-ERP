@@ -2,12 +2,13 @@ package com.project.store.sales.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 
 @Table(name = "invoices")
-public class Invoice {
+public class Invoice implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
