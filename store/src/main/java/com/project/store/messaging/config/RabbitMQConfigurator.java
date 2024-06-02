@@ -1,5 +1,6 @@
 package com.project.store.messaging.config;
 
+import com.project.store.goods.listeners.AccountingListener;
 import com.project.store.goods.listeners.ReservationListener;
 import com.project.store.sales.listeners.ProductListener;
 import org.springframework.amqp.core.*;
@@ -118,17 +119,17 @@ public class RabbitMQConfigurator {
         return container;
     }
 
-    /**
+
     @Bean
     SimpleMessageListenerContainer accountingContainer(ConnectionFactory connectionFactory,
-                                                        MessageListenerAdapter listenerAdapter) {
+                                                        MessageListenerAdapter accountingListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(ACCOUNTING_QUEUE);
-        container.setMessageListener(listenerAdapter);
+        container.setMessageListener(accountingListenerAdapter);
         return container;
     }
-    **/
+
 
     // tek dodati adaptere
     @Bean
@@ -141,6 +142,13 @@ public class RabbitMQConfigurator {
     @Bean
     MessageListenerAdapter reservationListenerAdapter(ReservationListener reservationListener, MessageConverter messageConverter) {
         MessageListenerAdapter adapter = new MessageListenerAdapter(reservationListener, "reservationAction");
+        adapter.setMessageConverter(messageConverter);
+        return adapter;
+    }
+
+    @Bean
+    MessageListenerAdapter accountingListenerAdapter(AccountingListener accountingListener, MessageConverter messageConverter) {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(accountingListener, "accountingAction");
         adapter.setMessageConverter(messageConverter);
         return adapter;
     }
