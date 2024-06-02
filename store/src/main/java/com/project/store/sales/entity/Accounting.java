@@ -2,11 +2,12 @@ package com.project.store.sales.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "accountings")
-public class Accounting {    //predracun
+public class Accounting implements Serializable{    //predracun
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
