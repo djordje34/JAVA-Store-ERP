@@ -43,5 +43,4 @@ public class AccountingController {
         accountingService.deleteAccounting(id);
         return ResponseEntity.noContent().build();
     }
-
 }
