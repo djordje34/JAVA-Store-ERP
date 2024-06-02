@@ -4,7 +4,7 @@ import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Supplier;
 import com.project.store.goods.entity.Warehouse;
-import com.project.store.goods.service.AdvancedService;
+import com.project.store.goods.service.AdvancedGoodsService;
 import com.project.store.goods.service.ProductService;
 import com.project.store.goods.service.SupplierService;
 import com.project.store.goods.service.WarehouseService;
@@ -19,23 +19,23 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/advanced")
-public class AdvancedController {
+@RequestMapping("/api/advancedGoods")
+public class AdvancedGoodsController {
 
-    private final AdvancedService advancedService;
+    private final AdvancedGoodsService advancedGoodsService;
     private final SupplierService supplierService;
     private final ProductService productService;
     private final WarehouseService warehouseService;
 
     @Autowired
-    public AdvancedController(AdvancedService advancedService, SupplierService supplierService, ProductService productService, WarehouseService warehouseService) {
-        this.advancedService = advancedService;
+    public AdvancedGoodsController(AdvancedGoodsService advancedGoodsService, SupplierService supplierService, ProductService productService, WarehouseService warehouseService) {
+        this.advancedGoodsService = advancedGoodsService;
         this.supplierService = supplierService;
         this.productService = productService;
         this.warehouseService = warehouseService;
     }
 
-    @PostMapping("/receptionOfProducts")
+    @PostMapping("/receptionOfProducts") // za cenu nadji max cenu za produkt i dodaj marginu
     public ResponseEntity<?> updateInventory(@RequestBody Map<String, Object> requestBody) {
         Long supplierId = ((Integer) requestBody.get("supplierId")).longValue();
         List<Map<String, Object>> inventoryItemMaps = (List<Map<String, Object>>) requestBody.get("inventoryItems");
@@ -56,20 +56,20 @@ public class AdvancedController {
         }
 
         List<InventoryItem> inventoryItems = convertToInventoryItems(inventoryItemMaps);
-        advancedService.receptionOfProducts(existingSupplier.get(), inventoryItems);
+        advancedGoodsService.receptionOfProducts(existingSupplier.get(), inventoryItems);
         return ResponseEntity.ok(inventoryItems);
     }
 
     @GetMapping("/getProductState")
     public ResponseEntity<Boolean> getProductState(@PathVariable Long id){
-        return ResponseEntity.ok((Boolean) advancedService.getProductState(id));
+        return ResponseEntity.ok((Boolean) advancedGoodsService.getProductState(id));
     }
 
     @GetMapping("/getProductPrice")
     public ResponseEntity<Double> getProductPrice(@RequestParam(defaultValue = "1.2", name = "factor") Double factor, @RequestParam(required = true, name = "id") Long id){
         Optional<Warehouse> warehouseOptional = warehouseService.getWarehouseById(id);
         if (warehouseOptional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        return ResponseEntity.ok(advancedService.formPrice(warehouseOptional.get(), factor));
+        return ResponseEntity.ok(advancedGoodsService.formPrice(warehouseOptional.get(), factor));
     }
 
     //utility methods
