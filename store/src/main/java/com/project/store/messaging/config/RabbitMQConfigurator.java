@@ -66,6 +66,11 @@ public class RabbitMQConfigurator {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.available");
     }
 
+    @Bean
+    Binding productCheckBinding(Queue productQueue, TopicExchange productsExchange){
+        return BindingBuilder.bind(productQueue).to(productsExchange).with("products.check"); // ovde treba da ima dva tipa za check
+    }
+
     // tri tipa *.created, *.cancelled i *.successful
     @Bean
     Binding reservationCancelledBinding(Queue reservationQueue, TopicExchange ordersExchange) {
@@ -135,7 +140,7 @@ public class RabbitMQConfigurator {
 
     @Bean
     MessageListenerAdapter reservationListenerAdapter(ReservationListener reservationListener, MessageConverter messageConverter) {
-        MessageListenerAdapter adapter = new MessageListenerAdapter(reservationListener, "");
+        MessageListenerAdapter adapter = new MessageListenerAdapter(reservationListener, "reservationAction");
         adapter.setMessageConverter(messageConverter);
         return adapter;
     }
