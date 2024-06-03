@@ -19,6 +19,6 @@ public interface AccountingRepository extends JpaRepository<Accounting, Long> {
     void delete(Accounting accounting);
 
     // 0-pending, 1-successful i 2-cancelled
-    @Query("SELECT a FROM Accounting a WHERE a.dueDate < :now AND a.status = 0")
+    @Query("SELECT a FROM Accounting a WHERE a.dueDate < :now AND a.state = 0")
     List<Accounting> findExpiredAccountings(LocalDate now);
 }
