@@ -55,9 +55,18 @@ public class ReservationListener implements Serializable {
                 for(OrderItem item : orderItems){
                     Reservation newReservation = new Reservation();
                     newReservation.setOrder(item.getOrder());
-
+                    newReservation.setQuantity(item.getQuantity());
                     Product product = item.getProduct();
+                    newReservation.setProduct(product);
 
+                    if(productService.getProductById(product.getId()).isEmpty()){
+                        for(Reservation tempRes : newReservations){
+                            reservationService.deleteReservation(tempRes.getId());
+                        }
+                        ProductEvent productEvent = ProductEvent.createCheckProductFailedEvent(newReservation);
+                        rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.check", productEvent);
+                        return;
+                    }
                     int quantity = 0;
                     List<Warehouse> warehouses = warehouseService.getAllWarehouses();
                     for(Warehouse warehouse : warehouses){
@@ -72,7 +81,10 @@ public class ReservationListener implements Serializable {
                             quantity -= reservation.getQuantity();
                         }
                     }
-                    if (quantity <= 0) {
+                    if (newReservation.getQuantity() > quantity) {
+                        for(Reservation tempRes : newReservations){
+                            reservationService.deleteReservation(tempRes.getId());
+                        }
                         ProductEvent productEvent = ProductEvent.createCheckProductFailedEvent(newReservation);
                         rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.check", productEvent);
                         return;
@@ -80,12 +92,8 @@ public class ReservationListener implements Serializable {
                     if(temp == null) throw new IllegalArgumentException("Unexpected behaviour");
                     prices.add(advancedGoodsService.formPrice(temp));
 
-                    newReservation.setProduct(product);
-                    newReservation.setQuantity(item.getQuantity());
                     newReservations.add(newReservation);
-                }
-                for(Reservation reservation : newReservations){
-                    reservationService.saveReservation(reservation);
+                    reservationService.saveReservation(newReservation);
                 }
 
                 ProductEvent productEvent = ProductEvent.createCheckProductSuccessfulEvent(newReservations, prices);
