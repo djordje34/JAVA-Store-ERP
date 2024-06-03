@@ -1,8 +1,10 @@
 package com.project.store.sales.service;
 
+import com.project.store.messaging.config.RabbitMQConfigurator;
+import com.project.store.messaging.events.AccountingEvent;
 import com.project.store.sales.entity.Accounting;
-import com.project.store.sales.entity.Invoice;
 import com.project.store.sales.repository.AccountingRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,12 @@ import java.util.Optional;
 @Service
 public class AccountingService {
     private final AccountingRepository accountingRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AccountingService(AccountingRepository accountingRepository){
+    public AccountingService(AccountingRepository accountingRepository, RabbitTemplate rabbitTemplate){
         this.accountingRepository = accountingRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public List<Accounting> getAllAccountings(){
@@ -41,10 +45,11 @@ public class AccountingService {
     public void checkExpiredAccountings() {
         List<Accounting> expiredAccountings = accountingRepository.findExpiredAccountings(LocalDate.now());
         for (Accounting accounting : expiredAccountings) {
-            Byte state = 2;
+            Byte state = 2; // za failed accounting(s)
             accounting.setState(state);
             accountingRepository.save(accounting);
-            // ovde da cancel rez itd
+            AccountingEvent accountingEvent = AccountingEvent.createFailedAccountingEvent(accounting);
+            rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "accountings.failed", accountingEvent);
 
         }
         }
