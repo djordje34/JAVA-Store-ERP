@@ -91,12 +91,12 @@ public class RabbitMQConfigurator {
     // Uspesan predracun
     @Bean
     Binding accountingSuccessful(Queue accountingQueue, TopicExchange ordersExchange) {
-        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accounting.successful");
+        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accountings.successful");
     }
 
     @Bean
     Binding accountingFailed(Queue accountingQueue, TopicExchange ordersExchange) {
-        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accounting.failed");
+        return BindingBuilder.bind(accountingQueue).to(ordersExchange).with("accountings.failed");
     }
 
     @Bean
