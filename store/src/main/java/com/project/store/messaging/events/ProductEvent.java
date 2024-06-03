@@ -5,6 +5,8 @@ import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Reservation;
 import com.project.store.goods.entity.Warehouse;
+import com.project.store.sales.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +18,7 @@ public class ProductEvent implements Serializable {
     List<Reservation> reservations=null;
     Reservation reservation;
     List<Double> prices = null;
+
     public ProductEvent() {
     }
 
