@@ -39,4 +39,12 @@ public class Order implements Serializable{
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Order{");
+        sb.append("id=").append(id).append(", customer=").append(customer);
+        sb.append('}');
+        return sb.toString();
+    }
 }
