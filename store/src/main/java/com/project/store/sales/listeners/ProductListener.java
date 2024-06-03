@@ -44,7 +44,8 @@ public class ProductListener implements Serializable {
                     System.out.println(currEvent + " - REMOVED PRODUCT FROM THE MARKET - " + productEvent.getProduct().toString());
             case CHECK_PRODUCT_FAILED -> {
                 orderService.deleteOrder(productEvent.getReservation().getOrder().getId());
-                System.out.println(currEvent + " - ORDER WITH ID = "+ productEvent.getReservation().getOrder().getId() +"FAILED - Not enough quantity of PRODUCT(s) with ID = "+productEvent.getReservation().getProduct().getId() );
+                System.out.println(currEvent + " - ORDER ID = "+ productEvent.getReservation().getOrder().getId() +" FAILED - Not enough quantity of PRODUCT(s) with ID = "
+                        +productEvent.getReservation().getProduct().getId() +" (Requested "+ productEvent.getReservation().getQuantity() + ")");
             }
             case CHECK_PRODUCT_SUCCESSFUL -> {
             List<Double> prices = productEvent.getPrices();
