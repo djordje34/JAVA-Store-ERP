@@ -56,7 +56,10 @@ public class ProductListener implements Serializable {
                 orderItemService.saveOrderItem(new OrderItem(reservations.get(i).getOrder(), reservations.get(i).getProduct(),reservations.get(i).getQuantity(), prices.get(i)));
             }
 
-            Accounting accounting = new Accounting(reservations.get(0).getOrder(), prices.stream().reduce(0.0, Double::sum), LocalDate.now().plusDays(3), (byte) 0);
+            Accounting accounting = new Accounting(reservations.get(0).getOrder(),
+                                                    prices.stream().reduce(0.0, Double::sum),
+                                                    LocalDate.now().plusDays(3),
+                                                    (byte) 0);
             accountingService.saveAccounting(accounting);
                 System.out.println(currEvent + " - ORDER SUCCESSFUL - " + accounting.getOrder().toString());
             }
