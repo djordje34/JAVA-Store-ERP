@@ -1,9 +1,5 @@
 package com.project.store.messaging.events;
 
-import com.project.store.goods.entity.Product;
-import com.project.store.goods.entity.Reservation;
-import com.project.store.sales.entity.Accounting;
-import com.project.store.sales.entity.Customer;
 import com.project.store.sales.entity.OrderItem;
 
 import java.io.Serializable;
