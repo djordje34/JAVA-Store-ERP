@@ -26,6 +26,9 @@ public class Accounting implements Serializable{    //predracun
     @Column(name = "state") //-1 nije jos 0 nije 1 jeste
     private Byte state;
 
+    public Accounting(){
+
+    }
     public Accounting(Order order, Double totalPrice, LocalDate dueDate, Byte state) {
         this.order = order;
         this.totalPrice = totalPrice;
