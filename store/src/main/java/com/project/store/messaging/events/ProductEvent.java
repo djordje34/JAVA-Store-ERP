@@ -1,12 +1,7 @@
 package com.project.store.messaging.events;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Reservation;
-import com.project.store.goods.entity.Warehouse;
-import com.project.store.sales.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
