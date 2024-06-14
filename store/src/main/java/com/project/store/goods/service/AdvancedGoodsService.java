@@ -76,12 +76,10 @@ public class AdvancedGoodsService {
 
         List<InventoryItem> inventoryItems = items.get();
         Double maxPrice = 0.0;
-        for(InventoryItem item : inventoryItems){
-            maxPrice = inventoryItems.stream()
+        maxPrice = inventoryItems.stream()
                     .mapToDouble(InventoryItem::getPurchasePrice)
                     .max()
                     .orElse(0.0);
-        }
         return maxPrice * factor;
     }
 }
