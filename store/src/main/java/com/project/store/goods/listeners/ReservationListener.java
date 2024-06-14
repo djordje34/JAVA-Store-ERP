@@ -90,7 +90,7 @@ public class ReservationListener implements Serializable {
                         return;
                     }
                     if(temp == null) throw new IllegalArgumentException("Unexpected behaviour");
-                    prices.add(advancedGoodsService.formPrice(temp));
+                    prices.add(advancedGoodsService.formPrice(temp, 1.2));
 
                     newReservations.add(newReservation);
                     reservationService.saveReservation(newReservation);
@@ -98,12 +98,6 @@ public class ReservationListener implements Serializable {
 
                 ProductEvent productEvent = ProductEvent.createCheckProductSuccessfulEvent(newReservations, prices);
                 rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "products.check", productEvent);
-            }
-            case CANCELLED_RESERVATION -> {
-
-            }
-            case SUCCESSFUL_RESERVATION -> {
-
             }
             default -> throw new IllegalStateException("Unexpected value: " + currEvent);
         }
