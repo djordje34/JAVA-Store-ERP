@@ -3,7 +3,6 @@ package com.project.store.sales.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")

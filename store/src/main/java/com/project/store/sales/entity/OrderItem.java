@@ -1,7 +1,7 @@
 package com.project.store.sales.entity;
 
-import jakarta.persistence.*;
 import com.project.store.goods.entity.Product;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 

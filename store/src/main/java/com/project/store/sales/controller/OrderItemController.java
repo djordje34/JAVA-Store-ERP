@@ -1,6 +1,5 @@
 package com.project.store.sales.controller;
 
-import com.project.store.sales.entity.Invoice;
 import com.project.store.sales.entity.OrderItem;
 import com.project.store.sales.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
