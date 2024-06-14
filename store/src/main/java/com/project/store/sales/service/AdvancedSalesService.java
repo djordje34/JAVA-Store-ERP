@@ -40,7 +40,7 @@ public class AdvancedSalesService {
     public void placeOrder(Customer customer, List<Product> products){   // i need to fix this
         Order order = new Order(customer);
         orderRepository.save(order);
-        List<OrderItem> orderItemList = new ArrayList<OrderItem>();
+        List<OrderItem> orderItemList = new ArrayList<>();
         for (Product product : products) {
             OrderItem orderItem = new OrderItem(order, product, 1, -1.0);
             orderItemList.add(orderItem);
@@ -68,8 +68,7 @@ public class AdvancedSalesService {
         accounting.setState((byte) 1);
         accountingService.saveAccounting(accounting);
         Invoice invoice = new Invoice(accounting, LocalDate.now(), totalPay);
-        Invoice savedInvoice = invoiceService.saveInvoice(invoice);
-        return savedInvoice;
+        return invoiceService.saveInvoice(invoice);
     }
 
 }
