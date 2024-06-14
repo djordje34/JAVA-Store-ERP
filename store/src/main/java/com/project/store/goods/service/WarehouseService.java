@@ -1,7 +1,5 @@
 package com.project.store.goods.service;
 
-import com.project.store.goods.entity.InventoryItem;
-import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Warehouse;
 import com.project.store.goods.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;

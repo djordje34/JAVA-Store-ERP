@@ -1,6 +1,5 @@
 package com.project.store.goods.service;
 
-import com.project.store.goods.entity.Product;
 import com.project.store.goods.entity.Supplier;
 import com.project.store.goods.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;

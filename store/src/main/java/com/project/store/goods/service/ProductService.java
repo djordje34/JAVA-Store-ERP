@@ -1,12 +1,8 @@
 package com.project.store.goods.service;
 
-import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Product;
-import com.project.store.goods.entity.Supplier;
-import com.project.store.goods.entity.Warehouse;
 import com.project.store.goods.repository.InventoryItemRepository;
 import com.project.store.goods.repository.ProductRepository;
-import com.project.store.goods.repository.SupplierRepository;
 import com.project.store.goods.repository.WarehouseRepository;
 import com.project.store.messaging.config.RabbitMQConfigurator;
 import com.project.store.messaging.events.ProductEvent;
@@ -16,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
