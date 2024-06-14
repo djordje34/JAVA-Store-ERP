@@ -2,7 +2,10 @@ package com.project.store.goods.repository;
 
 import com.project.store.goods.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long>{
@@ -13,4 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>{
     Optional<Reservation> findById(Long id);
 
     void delete(Reservation reservation);
+
+    Optional<List<Reservation>> findByOrderId(Long orderId);
 }
