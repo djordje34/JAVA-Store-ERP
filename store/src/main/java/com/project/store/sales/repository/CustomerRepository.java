@@ -1,6 +1,5 @@
 package com.project.store.sales.repository;
 
-import com.project.store.goods.entity.Product;
 import com.project.store.sales.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
