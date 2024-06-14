@@ -40,17 +40,4 @@ public class AccountingService {
         Optional<Accounting> accounting = accountingRepository.findById(id);
         accounting.ifPresent(accountingRepository::delete);
     }
-
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void checkExpiredAccountings() {
-        List<Accounting> expiredAccountings = accountingRepository.findExpiredAccountings(LocalDate.now());
-        for (Accounting accounting : expiredAccountings) {
-            Byte state = 2; // za failed accounting(s)
-            accounting.setState(state);
-            accountingRepository.save(accounting);
-            AccountingEvent accountingEvent = AccountingEvent.createFailedAccountingEvent(accounting);
-            rabbitTemplate.convertAndSend(RabbitMQConfigurator.PRODUCT_TOPIC_EXCHANGE, "accountings.failed", accountingEvent);
-
-        }
-        }
 }
