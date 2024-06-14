@@ -1,5 +1,6 @@
 package com.project.store.goods.repository;
-import com.project.store.goods.entity.*;
+
+import com.project.store.goods.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

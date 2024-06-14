@@ -1,6 +1,5 @@
 package com.project.store.goods.repository;
 
-import com.project.store.goods.entity.InventoryItem;
 import com.project.store.goods.entity.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

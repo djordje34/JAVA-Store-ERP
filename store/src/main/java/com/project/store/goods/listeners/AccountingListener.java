@@ -8,7 +8,6 @@ import com.project.store.goods.service.ReservationService;
 import com.project.store.goods.service.WarehouseService;
 import com.project.store.messaging.events.AccountingEvent;
 import com.project.store.sales.entity.Accounting;
-import com.project.store.sales.entity.Invoice;
 import jakarta.transaction.Transactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

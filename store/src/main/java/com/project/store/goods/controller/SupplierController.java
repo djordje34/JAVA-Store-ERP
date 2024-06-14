@@ -1,9 +1,7 @@
 package com.project.store.goods.controller;
 
 import com.project.store.goods.entity.Supplier;
-import com.project.store.goods.entity.Warehouse;
 import com.project.store.goods.service.SupplierService;
-import com.project.store.goods.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
