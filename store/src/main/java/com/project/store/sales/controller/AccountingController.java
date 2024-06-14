@@ -2,10 +2,8 @@ package com.project.store.sales.controller;
 
 import com.project.store.sales.entity.Accounting;
 import com.project.store.sales.service.AccountingService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
