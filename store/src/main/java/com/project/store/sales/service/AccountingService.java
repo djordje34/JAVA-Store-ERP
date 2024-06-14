@@ -1,15 +1,11 @@
 package com.project.store.sales.service;
 
-import com.project.store.messaging.config.RabbitMQConfigurator;
-import com.project.store.messaging.events.AccountingEvent;
 import com.project.store.sales.entity.Accounting;
 import com.project.store.sales.repository.AccountingRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
