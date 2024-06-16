@@ -75,6 +75,7 @@ public class AccountingListener implements Serializable {
                     for (Reservation res : reservations) {
                         reservationService.deleteReservation(res.getId());
                     }
+                    System.out.println("Accounting failed: "+accounting);
                 }
             }
         }
