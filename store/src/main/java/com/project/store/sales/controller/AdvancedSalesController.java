@@ -61,8 +61,9 @@ public class AdvancedSalesController {
         return ResponseEntity.ok("Order pending");
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 * * * * *")    //stavljeno svaki min -> ease of testing
     public void checkExpiredAccountings() {
+        System.out.println("Checking for expired accountings...");
         advancedSalesService.checkExpiredAccountings();
     }
 
