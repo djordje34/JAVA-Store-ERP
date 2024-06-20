@@ -6,24 +6,27 @@ import java.io.Serializable;
 
 public class AccountingEvent implements Serializable {
 
-    public static enum EventType {NONE, ACCOUNTING_SUCCESSFUL, ACCOUNTING_FAILED};
+    public static enum EventType {NONE, ACCOUNTING_SUCCESSFUL, ACCOUNTING_FAILED}
+
+    ;
     EventType eventType = EventType.NONE;
 
     Accounting accounting;
 
-    public AccountingEvent(){
+    public AccountingEvent() {
 
     }
 
-    public AccountingEvent(EventType eventType, Accounting accounting){
+    public AccountingEvent(EventType eventType, Accounting accounting) {
         this.eventType = eventType;
         this.accounting = accounting;
     }
 
-    public static AccountingEvent createSuccessfulAccountingEvent(Accounting accounting){
-        return new AccountingEvent(EventType.ACCOUNTING_SUCCESSFUL,accounting);
+    public static AccountingEvent createSuccessfulAccountingEvent(Accounting accounting) {
+        return new AccountingEvent(EventType.ACCOUNTING_SUCCESSFUL, accounting);
     }
-    public static AccountingEvent createFailedAccountingEvent(Accounting accounting){
+
+    public static AccountingEvent createFailedAccountingEvent(Accounting accounting) {
         return new AccountingEvent(EventType.ACCOUNTING_FAILED, accounting);
     }
 
@@ -43,12 +46,12 @@ public class AccountingEvent implements Serializable {
         this.accounting = accounting;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Accounting Event").append(" of type ")
                 .append(eventType)
                 .append("\n--------------------------------------\n");
-        if(accounting!=null)
+        if (accounting != null)
             sb.append(accounting);
         return sb.toString();
     }

@@ -16,7 +16,7 @@ public class SupplierController {
     private final SupplierService supplierService;
 
     @Autowired
-    public SupplierController(SupplierService supplierService){
+    public SupplierController(SupplierService supplierService) {
         this.supplierService = supplierService;
     }
 

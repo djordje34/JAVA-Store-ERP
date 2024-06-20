@@ -14,9 +14,10 @@ public class Supplier implements Serializable {
     @Column(name = "supplier_name", nullable = false)
     private String supplierName;
 
-    public Supplier(){
+    public Supplier() {
 
     }
+
     public Supplier(String supplierName) {
         this.supplierName = supplierName;
     }

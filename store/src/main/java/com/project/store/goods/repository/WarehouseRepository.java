@@ -15,6 +15,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     Warehouse save(Warehouse warehouse);
 
     Optional<Warehouse> findById(Long id);
+
     void delete(Warehouse warehouse);
 
     Optional<Warehouse> findByInventoryItemId(Long inventoryItemId);

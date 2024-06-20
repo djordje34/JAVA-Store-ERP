@@ -32,46 +32,49 @@ public class RabbitMQConfigurator {
     Queue productQueue() {
         return new Queue(PRODUCTS_QUEUE, false);
     }
+
     @Bean
     Queue reservationQueue() {
         return new Queue(RESERVATION_QUEUE, false);
     }
+
     @Bean
     Queue accountingQueue() {
         return new Queue(ACCOUNTING_QUEUE, false);
     }
 
     @Bean
-    TopicExchange productsExchange(){
+    TopicExchange productsExchange() {
         return new TopicExchange(PRODUCT_TOPIC_EXCHANGE);
     }
 
     @Bean
-    TopicExchange ordersExchange(){
+    TopicExchange ordersExchange() {
         return new TopicExchange(ORDER_TOPIC_EXCHANGE);
     }
 
     @Bean
-    Binding productDeletedBinding(Queue productQueue, TopicExchange productsExchange){
+    Binding productDeletedBinding(Queue productQueue, TopicExchange productsExchange) {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.deleted");
     }
 
     @Bean
-    Binding productAddedBinding(Queue productQueue, TopicExchange productsExchange){
+    Binding productAddedBinding(Queue productQueue, TopicExchange productsExchange) {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.created");
     }
+
     @Bean
-    Binding productUpdatedBinding(Queue productQueue, TopicExchange productsExchange){
+    Binding productUpdatedBinding(Queue productQueue, TopicExchange productsExchange) {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.updated");
     }
 
     @Bean
-    Binding productAvailableBinding(Queue productQueue, TopicExchange productsExchange){
+    Binding productAvailableBinding(Queue productQueue, TopicExchange productsExchange) {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.available");
     }
 
     @Bean
-    Binding productCheckBinding(Queue productQueue, TopicExchange productsExchange){
+    Binding productCheckBinding(Queue productQueue, TopicExchange productsExchange) {
         return BindingBuilder.bind(productQueue).to(productsExchange).with("products.check"); // ovde treba da ima dva tipa za check
     }
 
@@ -104,7 +107,7 @@ public class RabbitMQConfigurator {
 
     @Bean
     SimpleMessageListenerContainer productContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter productListenerAdapter) {
+                                                    MessageListenerAdapter productListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(PRODUCTS_QUEUE);
@@ -114,7 +117,7 @@ public class RabbitMQConfigurator {
 
     @Bean
     SimpleMessageListenerContainer reservationContainer(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter reservationListenerAdapter) {
+                                                        MessageListenerAdapter reservationListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(RESERVATION_QUEUE);
@@ -125,7 +128,7 @@ public class RabbitMQConfigurator {
 
     @Bean
     SimpleMessageListenerContainer accountingContainer(ConnectionFactory connectionFactory,
-                                                        MessageListenerAdapter accountingListenerAdapter) {
+                                                       MessageListenerAdapter accountingListenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(ACCOUNTING_QUEUE);

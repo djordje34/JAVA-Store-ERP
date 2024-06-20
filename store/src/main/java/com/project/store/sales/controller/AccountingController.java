@@ -15,7 +15,7 @@ public class AccountingController {
     private final AccountingService accountingService;
 
     @Autowired
-    public AccountingController(AccountingService accountingService){
+    public AccountingController(AccountingService accountingService) {
         this.accountingService = accountingService;
     }
 

@@ -14,7 +14,7 @@ public class SupplierService {
     private final SupplierRepository supplierRepository;
 
     @Autowired
-    public SupplierService(SupplierRepository supplierRepository){
+    public SupplierService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }
 
@@ -30,7 +30,7 @@ public class SupplierService {
         return supplierRepository.save(supplier);
     }
 
-    public void deleteSupplier(Long id){
+    public void deleteSupplier(Long id) {
         Optional<Supplier> supplier = supplierRepository.findById(id);
 
         supplier.ifPresent(supplierRepository::delete);

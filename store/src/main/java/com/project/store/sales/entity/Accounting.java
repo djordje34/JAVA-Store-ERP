@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "accountings")
-public class Accounting implements Serializable{    //predracun
+public class Accounting implements Serializable {    //predracun
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,10 @@ public class Accounting implements Serializable{    //predracun
     @Column(name = "state") //-1 nije jos 0 nije 1 jeste
     private Byte state;
 
-    public Accounting(){
+    public Accounting() {
 
     }
+
     public Accounting(Order order, Double totalPrice, LocalDate dueDate, Byte state) {
         this.order = order;
         this.totalPrice = totalPrice;

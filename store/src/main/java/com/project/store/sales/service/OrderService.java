@@ -13,7 +13,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository){
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
@@ -29,7 +29,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public void deleteOrder(Long id){
+    public void deleteOrder(Long id) {
         Optional<Order> order = orderRepository.findById(id);
         order.ifPresent(orderRepository::delete);
     }

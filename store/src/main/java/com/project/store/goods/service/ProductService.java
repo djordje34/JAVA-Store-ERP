@@ -22,6 +22,7 @@ public class ProductService {
     private final InventoryItemRepository inventoryItemRepository;
     private final WarehouseRepository warehouseRepository;
     private final RabbitTemplate rabbitTemplate;
+
     @Autowired
     public ProductService(ProductRepository productRepository, InventoryItemRepository inventoryItemRepository, WarehouseRepository warehouseRepository, RabbitTemplate rabbitTemplate) {
         this.productRepository = productRepository;

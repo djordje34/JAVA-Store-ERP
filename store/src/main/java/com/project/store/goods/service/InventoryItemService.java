@@ -14,27 +14,26 @@ public class InventoryItemService {
     private final InventoryItemRepository inventoryItemRepository;
 
     @Autowired
-    public InventoryItemService(InventoryItemRepository inventoryItemRepository){
+    public InventoryItemService(InventoryItemRepository inventoryItemRepository) {
         this.inventoryItemRepository = inventoryItemRepository;
     }
 
-    public List<InventoryItem> getAllInventoryItems(){
+    public List<InventoryItem> getAllInventoryItems() {
         return inventoryItemRepository.findAll();
     }
 
-    public Optional<InventoryItem> getInventoryItemById(Long id){
+    public Optional<InventoryItem> getInventoryItemById(Long id) {
         return inventoryItemRepository.findById(id);
     }
 
-    public InventoryItem saveInventoryItem(InventoryItem inventoryItem){
+    public InventoryItem saveInventoryItem(InventoryItem inventoryItem) {
         return inventoryItemRepository.save(inventoryItem);
     }
 
-    public void deleteInventoryItem(Long id){
+    public void deleteInventoryItem(Long id) {
         Optional<InventoryItem> inventoryItem = inventoryItemRepository.findById(id);
         inventoryItem.ifPresent(inventoryItemRepository::delete);
     }
-
 
 
 }

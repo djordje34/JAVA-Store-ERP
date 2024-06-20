@@ -7,10 +7,12 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ProductEvent implements Serializable {
-    public static enum EventType { NONE, NEW_PRODUCT, DELETED_PRODUCT, UPDATED_PRODUCT, CHECK_PRODUCT_FAILED, CHECK_PRODUCT_SUCCESSFUL, AVAILABLE_PRODUCT };
+    public static enum EventType {NONE, NEW_PRODUCT, DELETED_PRODUCT, UPDATED_PRODUCT, CHECK_PRODUCT_FAILED, CHECK_PRODUCT_SUCCESSFUL, AVAILABLE_PRODUCT}
+
+    ;
     EventType eventType = EventType.NONE;
-    Product product=null;
-    List<Reservation> reservations=null;
+    Product product = null;
+    List<Reservation> reservations = null;
     Reservation reservation;
     List<Double> prices = null;
 
@@ -21,6 +23,7 @@ public class ProductEvent implements Serializable {
         this.eventType = eventType;
         this.reservation = reservation;
     }
+
     public ProductEvent(EventType eventType, Product product) {
         this.eventType = eventType;
         this.product = product;
@@ -32,26 +35,27 @@ public class ProductEvent implements Serializable {
         this.prices = prices;
     }
 
-    public static ProductEvent createNewProductEvent(Product product){
+    public static ProductEvent createNewProductEvent(Product product) {
         return new ProductEvent(EventType.NEW_PRODUCT, product);
     }
 
-    public static ProductEvent createDeletedProductEvent(Product product){
+    public static ProductEvent createDeletedProductEvent(Product product) {
         return new ProductEvent(EventType.DELETED_PRODUCT, product);
     }
 
-    public static ProductEvent createUpdatedProductEvent(Product product){
+    public static ProductEvent createUpdatedProductEvent(Product product) {
         return new ProductEvent(EventType.UPDATED_PRODUCT, product);
     }
 
-    public static ProductEvent createAvailableProductEvent(Product product){
+    public static ProductEvent createAvailableProductEvent(Product product) {
         return new ProductEvent(EventType.AVAILABLE_PRODUCT, product);
     }
 
-    public static ProductEvent createCheckProductFailedEvent(Reservation reservation){
+    public static ProductEvent createCheckProductFailedEvent(Reservation reservation) {
         return new ProductEvent(EventType.CHECK_PRODUCT_FAILED, reservation);
     }
-    public static ProductEvent createCheckProductSuccessfulEvent(List<Reservation> reservations, List<Double> prices){
+
+    public static ProductEvent createCheckProductSuccessfulEvent(List<Reservation> reservations, List<Double> prices) {
         return new ProductEvent(EventType.CHECK_PRODUCT_SUCCESSFUL, reservations, prices);
     }
 
@@ -96,15 +100,15 @@ public class ProductEvent implements Serializable {
         this.reservation = reservation;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Product Event").append(" of type ")
                 .append(eventType)
                 .append("\n--------------------------------------\n");
-        if(product!=null)
+        if (product != null)
             sb.append(product);
-        if(reservations!=null){
-            for(Reservation reservation : reservations){
+        if (reservations != null) {
+            for (Reservation reservation : reservations) {
                 sb.append(reservation);
             }
         }

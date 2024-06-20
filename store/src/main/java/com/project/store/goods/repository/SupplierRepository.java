@@ -9,6 +9,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
     void flush();
 
     Supplier save(Supplier supplier);
+
     Optional<Supplier> findById(Long id);
 
     void delete(Supplier supplier);

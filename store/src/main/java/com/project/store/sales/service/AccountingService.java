@@ -15,24 +15,24 @@ public class AccountingService {
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AccountingService(AccountingRepository accountingRepository, RabbitTemplate rabbitTemplate){
+    public AccountingService(AccountingRepository accountingRepository, RabbitTemplate rabbitTemplate) {
         this.accountingRepository = accountingRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public List<Accounting> getAllAccountings(){
+    public List<Accounting> getAllAccountings() {
         return accountingRepository.findAll();
     }
 
-    public Optional<Accounting> getAccountingById(Long id){
+    public Optional<Accounting> getAccountingById(Long id) {
         return accountingRepository.findById(id);
     }
 
-    public Accounting saveAccounting(Accounting accounting){
+    public Accounting saveAccounting(Accounting accounting) {
         return accountingRepository.save(accounting);
     }
 
-    public void deleteAccounting(Long id){
+    public void deleteAccounting(Long id) {
         Optional<Accounting> accounting = accountingRepository.findById(id);
         accounting.ifPresent(accountingRepository::delete);
     }

@@ -24,7 +24,7 @@ public class Reservation implements Serializable {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public Reservation(Product product, int quantity,Order order) {
+    public Reservation(Product product, int quantity, Order order) {
         this.product = product;
         this.quantity = quantity;
         this.order = order;

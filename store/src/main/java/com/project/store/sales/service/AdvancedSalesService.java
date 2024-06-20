@@ -27,7 +27,7 @@ public class AdvancedSalesService {
     private final AccountingService accountingService;
 
     @Autowired
-    public AdvancedSalesService(OrderItemRepository orderItemRepository, OrderRepository orderRepository, RabbitTemplate rabbitTemplate, AccountingRepository accountingRepository, InvoiceService invoiceService, AccountingService accountingService){
+    public AdvancedSalesService(OrderItemRepository orderItemRepository, OrderRepository orderRepository, RabbitTemplate rabbitTemplate, AccountingRepository accountingRepository, InvoiceService invoiceService, AccountingService accountingService) {
         this.orderItemRepository = orderItemRepository;
         this.orderRepository = orderRepository;
         this.rabbitTemplate = rabbitTemplate;
@@ -37,7 +37,7 @@ public class AdvancedSalesService {
     }
 
 
-    public void placeOrder(Customer customer, List<Product> products){   // i need to fix this
+    public void placeOrder(Customer customer, List<Product> products) {   // i need to fix this
         Order order = new Order(customer);
         orderRepository.save(order);
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -62,7 +62,7 @@ public class AdvancedSalesService {
         }
     }
 
-    public Invoice payAccounting(Accounting accounting, Double totalPay){
+    public Invoice payAccounting(Accounting accounting, Double totalPay) {
         AccountingEvent accountingEvent = AccountingEvent.createSuccessfulAccountingEvent(accounting);
         rabbitTemplate.convertAndSend(RabbitMQConfigurator.ORDER_TOPIC_EXCHANGE, "accountings.successful", accountingEvent);
         accounting.setState((byte) 1);

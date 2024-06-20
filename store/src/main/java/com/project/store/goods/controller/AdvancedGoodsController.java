@@ -61,12 +61,12 @@ public class AdvancedGoodsController {
     }
 
     @GetMapping("/getProductState")
-    public ResponseEntity<Boolean> getProductState(@PathVariable Long id){
+    public ResponseEntity<Boolean> getProductState(@PathVariable Long id) {
         return ResponseEntity.ok((Boolean) advancedGoodsService.getProductState(id));
     }
 
     @GetMapping("/getProductPrice")
-    public ResponseEntity<Double> getProductPrice(@RequestParam(defaultValue = "1.2", name = "factor") Double factor, @RequestParam(required = true, name = "id") Long id){
+    public ResponseEntity<Double> getProductPrice(@RequestParam(defaultValue = "1.2", name = "factor") Double factor, @RequestParam(required = true, name = "id") Long id) {
         Optional<Warehouse> warehouseOptional = warehouseService.getWarehouseById(id);
         if (warehouseOptional.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         return ResponseEntity.ok(advancedGoodsService.formPrice(warehouseOptional.get(), factor));

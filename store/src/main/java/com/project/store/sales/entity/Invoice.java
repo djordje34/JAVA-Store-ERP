@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Entity
 
 @Table(name = "invoices")
-public class Invoice implements Serializable{
+public class Invoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,16 +17,20 @@ public class Invoice implements Serializable{
     @JoinColumn(name = "accounting_id", nullable = false)
     private Accounting accounting;
 
-    @Column(name="pay_date", nullable = false)
+    @Column(name = "pay_date", nullable = false)
     private LocalDate payDate;
 
-    @Column(name="total_pay", nullable = false)
+    @Column(name = "total_pay", nullable = false)
     private Double totalPay;
 
     public Invoice(Accounting accounting, LocalDate payDate, Double totalPay) {
         this.accounting = accounting;
         this.payDate = payDate;
         this.totalPay = totalPay;
+    }
+
+    public Invoice(){
+
     }
 
     public Long getId() {

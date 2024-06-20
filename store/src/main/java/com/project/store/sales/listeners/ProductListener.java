@@ -29,7 +29,7 @@ public class ProductListener implements Serializable {
         this.accountingService = accountingService;
     }
 
-    public void productAction(ProductEvent productEvent){
+    public void productAction(ProductEvent productEvent) {
         System.out.println("SALES: Product Event Occurred");
 
         ProductEvent.EventType currEvent = productEvent.getEventType();
@@ -44,23 +44,23 @@ public class ProductListener implements Serializable {
                     System.out.println(currEvent + " - REMOVED PRODUCT FROM THE MARKET - " + productEvent.getProduct().toString());
             case CHECK_PRODUCT_FAILED -> {
                 orderService.deleteOrder(productEvent.getReservation().getOrder().getId());
-                System.out.println(currEvent + " - ORDER ID = "+ productEvent.getReservation().getOrder().getId() +" FAILED - Not enough quantity of PRODUCT(s) with ID = "
-                        +productEvent.getReservation().getProduct().getId() +" (Requested "+ productEvent.getReservation().getQuantity() + ")");
+                System.out.println(currEvent + " - ORDER ID = " + productEvent.getReservation().getOrder().getId() + " FAILED - Not enough quantity of PRODUCT(s) with ID = "
+                        + productEvent.getReservation().getProduct().getId() + " (Requested " + productEvent.getReservation().getQuantity() + ")");
             }
             case CHECK_PRODUCT_SUCCESSFUL -> {
-            List<Double> prices = productEvent.getPrices();
-            List<Reservation> reservations = productEvent.getReservations();
+                List<Double> prices = productEvent.getPrices();
+                List<Reservation> reservations = productEvent.getReservations();
 
-            List<OrderItem> orderItems = new ArrayList<OrderItem>();
-            for(int i = 0; i< reservations.size(); i++){
-                orderItemService.saveOrderItem(new OrderItem(reservations.get(i).getOrder(), reservations.get(i).getProduct(),reservations.get(i).getQuantity(), prices.get(i)));
-            }
+                List<OrderItem> orderItems = new ArrayList<OrderItem>();
+                for (int i = 0; i < reservations.size(); i++) {
+                    orderItemService.saveOrderItem(new OrderItem(reservations.get(i).getOrder(), reservations.get(i).getProduct(), reservations.get(i).getQuantity(), prices.get(i)));
+                }
 
-            Accounting accounting = new Accounting(reservations.get(0).getOrder(),
-                                                    prices.stream().reduce(0.0, Double::sum),
-                                                    LocalDate.now().plusDays(3),
-                                                    (byte) 0);
-            accountingService.saveAccounting(accounting);
+                Accounting accounting = new Accounting(reservations.get(0).getOrder(),
+                        prices.stream().reduce(0.0, Double::sum),
+                        LocalDate.now().plusDays(3),
+                        (byte) 0);
+                accountingService.saveAccounting(accounting);
                 System.out.println(currEvent + " - ORDER SUCCESSFUL - " + accounting.getOrder().toString());
             }
             case AVAILABLE_PRODUCT -> {

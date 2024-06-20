@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "warehouses")
-public class Warehouse implements Serializable{
+public class Warehouse implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +26,10 @@ public class Warehouse implements Serializable{
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    public Warehouse(){
+    public Warehouse() {
 
     }
+
     public Warehouse(InventoryItem inventoryItem, Integer quantity, LocalDate additionDate, Supplier supplier) {
         this.inventoryItem = inventoryItem;
         this.quantity = quantity;

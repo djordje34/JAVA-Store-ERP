@@ -16,7 +16,7 @@ public class WarehouseController {
     private final WarehouseService warehouseService;
 
     @Autowired
-    public WarehouseController(WarehouseService warehouseService){
+    public WarehouseController(WarehouseService warehouseService) {
         this.warehouseService = warehouseService;
     }
 
@@ -45,13 +45,13 @@ public class WarehouseController {
     }
 
     @GetMapping("/inventoryItems/products/:product_id/quantity") //prepravi da ide interno preko funkcija!
-    public ResponseEntity<Integer> findQuantityByProductId(Long id){
+    public ResponseEntity<Integer> findQuantityByProductId(Long id) {
         Integer val = warehouseService.findQuantityByProductId(id);
         return ResponseEntity.ok(val);
     }
 
     @GetMapping("/inventoryItems/products/:product_id/averageBuyPrice")
-    public ResponseEntity<Double> findAveragePurchasePrice(Long id){
+    public ResponseEntity<Double> findAveragePurchasePrice(Long id) {
         Double val = warehouseService.findAveragePurchasePrice(id);
         return ResponseEntity.ok(val);
     }

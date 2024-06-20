@@ -13,23 +13,23 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository){
+    public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
 
-    public List<Reservation> getAllReservations(){
+    public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
     }
 
-    public Optional<Reservation> getReservationById(Long id){
+    public Optional<Reservation> getReservationById(Long id) {
         return reservationRepository.findById(id);
     }
 
-    public Reservation saveReservation(Reservation reservation){
+    public Reservation saveReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
-    public void deleteReservation(Long id){
+    public void deleteReservation(Long id) {
         Optional<Reservation> reservation = reservationRepository.findById(id);
         reservation.ifPresent(reservationRepository::delete);
     }

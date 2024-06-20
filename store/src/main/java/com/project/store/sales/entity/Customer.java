@@ -5,18 +5,19 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="customers")
-public class Customer implements Serializable{
+@Table(name = "customers")
+public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="customer_name")
+    @Column(name = "customer_name")
     private String name;
 
-    public Customer(){
+    public Customer() {
 
     }
+
     public Customer(String name) {
         this.name = name;
     }
@@ -35,5 +36,14 @@ public class Customer implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Customer{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

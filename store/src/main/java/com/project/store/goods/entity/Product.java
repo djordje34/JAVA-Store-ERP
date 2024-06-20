@@ -1,22 +1,23 @@
 package com.project.store.goods.entity;
+
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="product_name", nullable = false)
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name="unit_of_measure", nullable = false)
+    @Column(name = "unit_of_measure", nullable = false)
     private String unitOfMeasure;
 
-    public Product(){
+    public Product() {
 
     }
 

@@ -13,7 +13,7 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
 
     @Autowired
-    public InvoiceService(InvoiceRepository invoiceRepository){
+    public InvoiceService(InvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
 
@@ -29,7 +29,7 @@ public class InvoiceService {
         return invoiceRepository.save(invoice);
     }
 
-    public void deleteInvoice(Long id){
+    public void deleteInvoice(Long id) {
         Optional<Invoice> invoice = invoiceRepository.findById(id);
         invoice.ifPresent(invoiceRepository::delete);
     }

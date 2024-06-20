@@ -33,11 +33,12 @@ public class AdvancedGoodsService {
         this.warehouseRepository = warehouseRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
+
     @Transactional
-    public void receptionOfProducts(Supplier supplier, List<InventoryItem> items){ // NIJE TESTIRANO
+    public void receptionOfProducts(Supplier supplier, List<InventoryItem> items) { // NIJE TESTIRANO
         LocalDate curr = LocalDate.now();
 
-        for(InventoryItem item : items){
+        for (InventoryItem item : items) {
             Product product = item.getProduct();
             Optional<Product> existingProduct = productRepository.findById(product.getId());
 
@@ -54,32 +55,34 @@ public class AdvancedGoodsService {
         }
     }
 
-    public boolean getProductState(Long id){
+    public boolean getProductState(Long id) {
         List<Warehouse> warehouses = warehouseRepository.findAll();
 
-        for(Warehouse warehouse : warehouses){
-            if(Objects.equals(warehouse.getInventoryItem().getProduct().getId(), id)) return true;
+        for (Warehouse warehouse : warehouses) {
+            if (Objects.equals(warehouse.getInventoryItem().getProduct().getId(), id)) return true;
         }
         return false;
     }
 
     // default impl za formPrice
-    public Double formPrice(Warehouse warehouse){
-        return warehouse.getInventoryItem().getPurchasePrice()* 1.2;
+    public Double formPrice(Warehouse warehouse) {
+        return warehouse.getInventoryItem().getPurchasePrice() * 1.2;
     }
+
     //spec. impl
-    public Double formPrice(Warehouse warehouse, Double factor){
+    public Double formPrice(Warehouse warehouse, Double factor) {
 
         Optional<List<InventoryItem>> items = inventoryItemRepository.findByProductId(warehouse.getInventoryItem().getProduct().getId());
 
-        if(items.isEmpty()) throw new IllegalArgumentException("There are no items that have product with ID=" + warehouse.getInventoryItem().getProduct().getId() + " ");
+        if (items.isEmpty())
+            throw new IllegalArgumentException("There are no items that have product with ID=" + warehouse.getInventoryItem().getProduct().getId() + " ");
 
         List<InventoryItem> inventoryItems = items.get();
         Double maxPrice = 0.0;
         maxPrice = inventoryItems.stream()
-                    .mapToDouble(InventoryItem::getPurchasePrice)
-                    .max()
-                    .orElse(0.0);
+                .mapToDouble(InventoryItem::getPurchasePrice)
+                .max()
+                .orElse(0.0);
         return maxPrice * factor;
     }
 }

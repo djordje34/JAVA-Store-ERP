@@ -10,13 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/inventoryItems") //u sustini ovo je utility i nepotrebno jer warehouse direktno radi sa inventory-jem, ali cisto radi reda
+@RequestMapping("/api/inventoryItems")
+//u sustini ovo je utility i nepotrebno jer warehouse direktno radi sa inventory-jem, ali cisto radi reda
 public class InventoryItemController {
 
     private final InventoryItemService inventoryItemService;
 
     @Autowired
-    public InventoryItemController(InventoryItemService inventoryItemService){
+    public InventoryItemController(InventoryItemService inventoryItemService) {
         this.inventoryItemService = inventoryItemService;
     }
 

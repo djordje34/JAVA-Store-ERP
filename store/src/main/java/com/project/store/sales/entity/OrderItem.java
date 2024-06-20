@@ -6,29 +6,30 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="order_items")
-public class OrderItem implements Serializable{
+@Table(name = "order_items")
+public class OrderItem implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name="quantity", nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "price_per_unit", nullable = false)
     private Double pricePerUnit;
 
-    public OrderItem(){
+    public OrderItem() {
 
     }
+
     public OrderItem(Order order, Product product, Integer quantity, Double pricePerUnit) {
         this.order = order;
         this.product = product;
@@ -76,7 +77,7 @@ public class OrderItem implements Serializable{
         this.pricePerUnit = pricePerUnit;
     }
 
-    public double getTotalPrice(){
+    public double getTotalPrice() {
         return pricePerUnit * quantity;
     }
 }

@@ -27,7 +27,6 @@ public class AdvancedSalesController {
     private final RabbitTemplate rabbitTemplate;
 
 
-
     public AdvancedSalesController(CustomerService customerService, OrderService orderService, OrderItemService orderItemService, AdvancedSalesService advancedSalesService, AccountingService accountingService, RabbitTemplate rabbitTemplate) {
         this.customerService = customerService;
         this.orderService = orderService;
@@ -82,7 +81,7 @@ public class AdvancedSalesController {
 
         Double priceDiff = totalPay - accounting.getTotalPrice();
         if (priceDiff < 0.0)
-            return ResponseEntity.status(HttpStatus.OK).body("Requested sum is "+accounting.getTotalPrice().toString()+", you provided "+totalPay.toString());
+            return ResponseEntity.status(HttpStatus.OK).body("Requested sum is " + accounting.getTotalPrice().toString() + ", you provided " + totalPay.toString());
 
         Invoice invoice = advancedSalesService.payAccounting(accounting, totalPay);
 

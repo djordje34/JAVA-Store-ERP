@@ -13,7 +13,7 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    public OrderItemService(OrderItemRepository orderItemRepository){
+    public OrderItemService(OrderItemRepository orderItemRepository) {
         this.orderItemRepository = orderItemRepository;
     }
 
@@ -29,7 +29,7 @@ public class OrderItemService {
         return orderItemRepository.save(orderItem);
     }
 
-    public void deleteOrderItem(Long id){
+    public void deleteOrderItem(Long id) {
         Optional<OrderItem> orderItem = orderItemRepository.findById(id);
         orderItem.ifPresent(orderItemRepository::delete);
     }

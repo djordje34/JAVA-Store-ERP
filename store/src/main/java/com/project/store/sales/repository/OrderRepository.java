@@ -1,4 +1,5 @@
 package com.project.store.sales.repository;
+
 import com.project.store.sales.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 

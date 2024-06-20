@@ -20,9 +20,10 @@ public class InventoryItem implements Serializable {
     @Column(name = "purchase_price", nullable = false)
     private Double purchasePrice;
 
-    public InventoryItem(){
+    public InventoryItem() {
 
     }
+
     public InventoryItem(Product product, Double purchasePrice) {
         this.product = product;
         this.purchasePrice = purchasePrice;
